@@ -1,0 +1,40 @@
+﻿@page "/products/create"
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@using InventoryManagementSystem.Models
+
+<h3>Create Product</h3>
+
+<EditForm Model="@newProduct" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Name:</label>
+        <InputText @bind-Value="newProduct.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>SKU:</label>
+        <InputText @bind-Value="newProduct.SKU" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Unit Price:</label>
+        <InputNumber @bind-Value="newProduct.UnitPrice" class="form-control" />
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Save Product</button>
+</EditForm>
+
+@code {
+    private Product newProduct = new Product();
+
+    private async Task HandleValidSubmit()
+    {
+        // Seamless HTTP POST to API
+        var response = await Http.PostAsJsonAsync("api/products", newProduct);
+        if (response.IsSuccessStatusCode)
+        {
+            NavigationManager.NavigateTo("/products");
+        }
+    }
+}
