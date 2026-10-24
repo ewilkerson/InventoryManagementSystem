@@ -1,7 +1,68 @@
 ﻿@page "/"
+@inject HttpClient Http
+@using InventoryManagementSystem.Models
 
-<PageTitle>Home</PageTitle>
+<h3>Inventory Management - Products</h3>
 
-<h1>Hello, world!</h1>
+@if (products == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.SKU</td>
+                    <td>@product.UnitPrice.ToString("C")</td>
+                    <td>@product.StockQuantity</td>
+                    <td>
+                        <!-- Routing to Details and Edit components -->
+                        <a href="/products/edit/@product.Id" class="btn btn-primary btn-sm">Edit</a>
+                        <button @onclick="() => DeleteProduct(product.Id)" class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <a href="/products/create" class="btn btn-success">Add New Product</a>
+}
 
-Welcome to your new app.
+@code {
+    private Product[]? products;
+
+    protected override async Task OnInitializedAsync()
+    {
+       // products = new Product[]{};
+        await LoadProducts();
+    }
+
+    private async Task LoadProducts()
+    {
+        // Seamless HTTP GET to API
+        products = await Http.GetFromJsonAsync<Product[]>("api/products");
+    }
+
+    private async Task DeleteProduct(int id)
+    {
+        // Seamless HTTP DELETE to API
+        var response = await Http.DeleteAsync($"api/products/{id}");
+        if (response.IsSuccessStatusCode)
+        {
+            await LoadProducts(); // Refresh UI
+        }
+    }
+}

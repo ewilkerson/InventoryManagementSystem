@@ -54,6 +54,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 builder.Services.AddControllers();
 
+builder.Services.AddHttpClient();
+
+// Optional: If you want to allow direct injection of a generic HttpClient with a base address
+builder.Services.AddScoped(sp => new HttpClient
+{
+    BaseAddress = new Uri("https://localhost:7034") // Replace with your backend URL
+});
 
 //============================================
 

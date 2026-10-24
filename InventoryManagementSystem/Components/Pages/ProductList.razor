@@ -46,7 +46,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadProducts();
+        products = new Product[]{};
+       // await LoadProducts();
     }
 
     private async Task LoadProducts()
