@@ -35,6 +35,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // 3. Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IInventoryReportingRepository, InventoryReportingRepository>();
+builder.Services.AddScoped<IInventoryReportingService, InventoryReportingService>();
 
 // 4. Authentication (JWT)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

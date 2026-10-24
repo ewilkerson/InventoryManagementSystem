@@ -4,7 +4,14 @@ using InventoryManagementSystem.Data;
 
 namespace InventoryManagementSystem.Repositories
 {
-    public class InventoryReportingRepository
+    public interface IInventoryReportingRepository
+    {
+        Task<IEnumerable<Product>> GetProductsWithCategoriesAsync();
+        Task<IEnumerable<object>> GetTransactionHistoryAsync();
+        Task<IEnumerable<Product>> GetProductsToRestockAsync();
+        Task<IEnumerable<object>> GetInventoryValueByCategoryAsync();
+    }
+    public class InventoryReportingRepository: IInventoryReportingRepository
     {
         private readonly ApplicationDbContext _context;
 

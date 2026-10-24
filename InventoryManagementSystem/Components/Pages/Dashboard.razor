@@ -4,6 +4,7 @@
 
 <h2 class="mb-4">Inventory Dashboard</h2>
 
+
 <div class="row">
     <!-- Total Inventory Value "Chart" -->
     <div class="col-md-6 mb-4">
@@ -12,12 +13,17 @@
                 <h5 class="card-title mb-0">Inventory Value by Category</h5>
             </div>
             <div class="card-body">
-                @if (inventoryValues == null)
-                {
-                    <p><em>Loading chart data...</em></p>
-                }
-                else
-                {
+@if (isLoading)
+{
+    <p><em>Loading chart data...</em></p>
+} else @if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @errorMessage
+    </div>
+}
+else if (inventoryValues != null)
+{
                     var maxVal = inventoryValues.Max(v => v.TotalInventoryValue);
                     
                     @foreach (var item in inventoryValues)
@@ -49,7 +55,7 @@
                 <h5 class="card-title mb-0">Restock Alerts</h5>
             </div>
             <div class="card-body">
-                @if (restockAlerts == null)
+                @if (isLoading2)
                 {
                     <p><em>Loading alerts...</em></p>
                 }
@@ -57,7 +63,7 @@
                 {
                     <div class="alert alert-success">All product stock levels are healthy!</div>
                 }
-                else
+                else @if (restockAlerts != null)
                 {
                     <table class="table table-hover">
                         <thead>
@@ -90,9 +96,17 @@
 @code {
     private IEnumerable<InventoryValueReportDto>? inventoryValues;
     private IEnumerable<RestockReportDto>? restockAlerts;
+    private string? errorMessage;
+    private bool isLoading = true;
+    private bool isLoading2 = true;
 
     protected override async Task OnInitializedAsync()
     {
+        
+        
+                try
+        {
+
         // Fetch both reports concurrently for better performance
 
         var valueTask = Http.GetFromJsonAsync<IEnumerable<InventoryValueReportDto>>("api/reports/inventory-value");
@@ -102,5 +116,28 @@
 
         inventoryValues = await valueTask ?? Array.Empty<InventoryValueReportDto>();
         restockAlerts = await alertsTask ?? Array.Empty<RestockReportDto>();
+                }
+        catch (HttpRequestException ex)
+        {
+             if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                // NavigationManager.NavigateTo("/login");
+             }
+             else
+             {
+                errorMessage = $"Server error: {ex.Message}";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred while loading the data. Please verify your connection.";
+            Console.WriteLine(ex.Message);
+        }
+        finally
+        {
+            isLoading = false;
+            isLoading2 = false;
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using InventoryManagementSystem.Repositories;
+using InventoryManagementSystem.Services;
 using InventoryManagementSystem.Shared.Models;
 using Microsoft.Extensions.Logging;
 
@@ -11,12 +11,12 @@ namespace InventoryManagementSystem.Controller
     [Authorize(Roles = "Admin,Manager")] // Secure the reporting endpoints
     public class ReportsController : ControllerBase
     {
-        private readonly InventoryReportingRepository _repository;
+        private readonly IInventoryReportingService _service;
         private readonly ILogger<ReportsController> _logger;
 
-        public ReportsController(InventoryReportingRepository repository, ILogger<ReportsController> logger)
+        public ReportsController(IInventoryReportingService service, ILogger<ReportsController> logger)
         {
-            _repository = repository;
+            _service = service;
             _logger = logger;
         }
 
@@ -25,7 +25,7 @@ namespace InventoryManagementSystem.Controller
         {
             try
             {
-                var data = await _repository.GetInventoryValueByCategoryAsync();
+                var data = await _service.GetInventoryValueByCategoryAsync();
 
                 // Map the anonymous object to our DTO
                 var report = data.Select(d => new InventoryValueReportDto
@@ -49,7 +49,7 @@ namespace InventoryManagementSystem.Controller
         {
             try
             {
-                var products = await _repository.GetProductsToRestockAsync();
+                var products = await _service.GetProductsToRestockAsync();
 
                 var alerts = products.Select(p => new RestockReportDto
                 {
