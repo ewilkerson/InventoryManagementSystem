@@ -27,6 +27,7 @@
     <Folder Include="Models\" />
     <Folder Include="Logs\" />
     <Folder Include="Repositories\" />
+    <Folder Include="Shared\Models\" />
   </ItemGroup>
 
 </Project>
