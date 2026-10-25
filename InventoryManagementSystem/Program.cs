@@ -35,6 +35,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 // 3. Dependency Injection
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<IProductService, ProductJSONService>();
 builder.Services.AddScoped<IInventoryReportingRepository, InventoryReportingRepository>();
 builder.Services.AddScoped<IInventoryReportingService, InventoryReportingService>();
 
@@ -127,7 +128,8 @@ app.UseAuthorization();
 app.MapControllers();
 //============================================
 
-app.Run();
+//app.Run();
+await app.RunAsync();
 
 /*
 

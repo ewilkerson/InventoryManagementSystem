@@ -1,0 +1,147 @@
+[
+  {
+    "Product": {
+      "Id": 1,
+      "Name": "Sample Item",
+      "SKU": "ITEM-001",
+      "UnitPrice": 49.99,
+      "StockQuantity": 150,
+      "ReorderLevel": 20,
+      "CategoryId": 1,
+      "Category": {
+        "Id": 1,
+        "Name": "Electronics",
+        "Products": null
+      }
+    },
+    "Supplier": {
+      "Id": 1,
+      "CompanyName": "Acme Supplies Ltd.",
+      "ContactEmail": "vendor@acmesupplies.com"
+    },
+    "Transaction": {
+      "Id": 1,
+      "ProductId": 1,
+      "Product": null,
+      "TransactionType": "Sale",
+      "Quantity": 5,
+      "TransactionDate": "2026-10-24T19:50:00Z"
+    }
+  },
+  {
+    "Product": {
+      "Id": 2,
+      "Name": "Wireless Mouse",
+      "SKU": "ITEM-002",
+      "UnitPrice": 25.50,
+      "StockQuantity": 300,
+      "ReorderLevel": 50,
+      "CategoryId": 1,
+      "Category": {
+        "Id": 1,
+        "Name": "Electronics",
+        "Products": null
+      }
+    },
+    "Supplier": {
+      "Id": 2,
+      "CompanyName": "Tech Source Inc.",
+      "ContactEmail": "sales@techsource.com"
+    },
+    "Transaction": {
+      "Id": 2,
+      "ProductId": 2,
+      "Product": null,
+      "TransactionType": "Restock",
+      "Quantity": 100,
+      "TransactionDate": "2026-10-24T20:00:00Z"
+    }
+  },
+  {
+    "Product": {
+      "Id": 3,
+      "Name": "Office Chair",
+      "SKU": "FURN-001",
+      "UnitPrice": 150.00,
+      "StockQuantity": 45,
+      "ReorderLevel": 10,
+      "CategoryId": 2,
+      "Category": {
+        "Id": 2,
+        "Name": "Furniture",
+        "Products": null
+      }
+    },
+    "Supplier": {
+      "Id": 3,
+      "CompanyName": "Global Furniture",
+      "ContactEmail": "orders@globalfurniture.com"
+    },
+    "Transaction": {
+      "Id": 3,
+      "ProductId": 3,
+      "Product": null,
+      "TransactionType": "Sale",
+      "Quantity": 2,
+      "TransactionDate": "2026-10-24T20:15:00Z"
+    }
+  },
+  {
+    "Product": {
+      "Id": 4,
+      "Name": "Mechanical Keyboard",
+      "SKU": "ITEM-003",
+      "UnitPrice": 89.99,
+      "StockQuantity": 80,
+      "ReorderLevel": 15,
+      "CategoryId": 1,
+      "Category": {
+        "Id": 1,
+        "Name": "Electronics",
+        "Products": null
+      }
+    },
+    "Supplier": {
+      "Id": 4,
+      "CompanyName": "Peripheral Partners",
+      "ContactEmail": "b2b@peripheralpartners.com"
+    },
+    "Transaction": {
+      "Id": 4,
+      "ProductId": 4,
+      "Product": null,
+      "TransactionType": "Sale",
+      "Quantity": 1,
+      "TransactionDate": "2026-10-24T20:30:00Z"
+    }
+  },
+  {
+    "Product": {
+      "Id": 5,
+      "Name": "Desk Lamp",
+      "SKU": "FURN-002",
+      "UnitPrice": 35.00,
+      "StockQuantity": 120,
+      "ReorderLevel": 30,
+      "CategoryId": 2,
+      "Category": {
+        "Id": 2,
+        "Name": "Furniture",
+        "Products": null
+      }
+    },
+    "Supplier": {
+      "Id": 5,
+      "CompanyName": "Bright Ideas Lighting",
+      "ContactEmail": "wholesale@brightideas.com"
+    },
+    "Transaction": {
+      "Id": 5,
+      "ProductId": 5,
+      "Product": null,
+      "TransactionType": "Restock",
+      "Quantity": 50,
+      "TransactionDate": "2026-10-24T20:45:00Z"
+    }
+  }
+]

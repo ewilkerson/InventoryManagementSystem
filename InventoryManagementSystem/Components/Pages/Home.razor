@@ -68,7 +68,7 @@ private string? errorMessage;
         {
             //products = new Product[]{};
                     // Seamless HTTP GET to API
-        products = await Http.GetFromJsonAsync<Product[]>("api/products");
+            products = await Http.GetFromJsonAsync<Product[]>("https://localhost:7034/api/products");
 
         }
         catch (HttpRequestException ex)

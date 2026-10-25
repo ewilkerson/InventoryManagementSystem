@@ -1,0 +1,18 @@
+[
+  {
+    "Product": {
+      "Id": 1,
+      "Name": "Sample Item",
+      "SKU": "ITEM-001",
+      "UnitPrice": 49.99,
+      "StockQuantity": 150,
+      "ReorderLevel": 20,
+      "CategoryId": 1,
+      "Category": {
+        "Id": 1,
+        "Name": "Electronics",
+        "Products": null
+      }
+    }
+  }
+]
