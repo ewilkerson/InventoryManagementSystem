@@ -3,13 +3,13 @@ using System.Text.Json;
 
 namespace InventoryManagementSystem.Services
 {
-    public class ProductJSONService : IProductService
+    public class ProductJSONApiService : IProductApiService
     {
         private readonly HttpClient _httpClient;
         private readonly string _jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Products.json");
 
         // Fixed constructor name to match the class
-        public ProductJSONService(HttpClient httpClient)
+        public ProductJSONApiService(HttpClient httpClient)
         {
             _httpClient = httpClient;
         }

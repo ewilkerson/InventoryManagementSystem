@@ -11,10 +11,10 @@ namespace InventoryManagementSystem.Controller
         [Authorize] // Requires valid authentication token
         public class ProductsController : ControllerBase
         {
-            private readonly IProductService _service;
+            private readonly IProductApiService _service;
             private readonly ILogger<ProductsController> _logger;
 
-            public ProductsController(IProductService service, ILogger<ProductsController> logger)
+            public ProductsController(IProductApiService service, ILogger<ProductsController> logger)
             {
                 _service = service;
                 _logger = logger;

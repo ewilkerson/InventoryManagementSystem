@@ -4,18 +4,18 @@ using InventoryManagementSystem.Data;
 
 namespace InventoryManagementSystem.Repositories
 {
-    public interface IInventoryReportingRepository
+    public interface IInventoryReportingApiRepository
     {
         Task<IEnumerable<Product>> GetProductsWithCategoriesAsync();
         Task<IEnumerable<object>> GetTransactionHistoryAsync();
         Task<IEnumerable<Product>> GetProductsToRestockAsync();
         Task<IEnumerable<object>> GetInventoryValueByCategoryAsync();
     }
-    public class InventoryReportingRepository: IInventoryReportingRepository
+    public class InventoryReportingApiRepository : IInventoryReportingApiRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public InventoryReportingRepository(ApplicationDbContext context)
+        public InventoryReportingApiRepository(ApplicationDbContext context)
         {
             _context = context;
         }

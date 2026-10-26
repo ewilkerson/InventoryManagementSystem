@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace InventoryManagementSystem.Services
 {
-    public interface IInventoryReportingService
+    public interface IInventoryReportingApiService
     {
         Task<IEnumerable<Product>> GetProductsWithCategoriesAsync();
         Task<IEnumerable<object>> GetTransactionHistoryAsync();
@@ -12,12 +12,12 @@ namespace InventoryManagementSystem.Services
         Task<IEnumerable<object>> GetInventoryValueByCategoryAsync();
     }
 
-    public class InventoryReportingService: IInventoryReportingService
+    public class InventoryReportingApiService: IInventoryReportingApiService
     {
-        private readonly IInventoryReportingRepository _repository;
-        private readonly ILogger<InventoryReportingService> _logger;
+        private readonly IInventoryReportingApiRepository _repository;
+        private readonly ILogger<InventoryReportingApiService> _logger;
 
-        public InventoryReportingService(IInventoryReportingRepository repository, ILogger<InventoryReportingService> logger)
+        public InventoryReportingApiService(IInventoryReportingApiRepository repository, ILogger<InventoryReportingApiService> logger)
         {
             _repository = repository;
             _logger = logger;

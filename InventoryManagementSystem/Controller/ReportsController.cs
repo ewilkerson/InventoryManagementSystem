@@ -11,10 +11,10 @@ namespace InventoryManagementSystem.Controller
     [Authorize(Roles = "Admin,Manager")] // Secure the reporting endpoints
     public class ReportsController : ControllerBase
     {
-        private readonly IInventoryReportingService _service;
+        private readonly IInventoryReportingApiService _service;
         private readonly ILogger<ReportsController> _logger;
 
-        public ReportsController(IInventoryReportingService service, ILogger<ReportsController> logger)
+        public ReportsController(IInventoryReportingApiService service, ILogger<ReportsController> logger)
         {
             _service = service;
             _logger = logger;

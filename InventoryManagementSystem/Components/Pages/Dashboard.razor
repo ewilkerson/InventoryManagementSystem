@@ -59,7 +59,7 @@ else if (inventoryValues != null)
                 {
                     <p><em>Loading alerts...</em></p>
                 }
-                else if (!restockAlerts.Any())
+                else if (restockAlerts == null || !restockAlerts.Any())
                 {
                     <div class="alert alert-success">All product stock levels are healthy!</div>
                 }
@@ -116,6 +116,8 @@ else if (inventoryValues != null)
 
         inventoryValues = await valueTask ?? Array.Empty<InventoryValueReportDto>();
         restockAlerts = await alertsTask ?? Array.Empty<RestockReportDto>();
+
+
                 }
         catch (HttpRequestException ex)
         {
