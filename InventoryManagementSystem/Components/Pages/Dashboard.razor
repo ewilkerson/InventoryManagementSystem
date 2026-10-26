@@ -1,6 +1,7 @@
 ﻿@page "/dashboard"
+@using InventoryManagementSystem.Services
 @using InventoryManagementSystem.Shared.Models
-@inject HttpClient Http
+@inject IInventoryReportingService InventoryReportingService
 
 <h2 class="mb-4">Inventory Dashboard</h2>
 
@@ -100,7 +101,7 @@ else if (inventoryValues != null)
     private bool isLoading = true;
     private bool isLoading2 = true;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         
         
@@ -109,13 +110,8 @@ else if (inventoryValues != null)
 
         // Fetch both reports concurrently for better performance
 
-        var valueTask = Http.GetFromJsonAsync<IEnumerable<InventoryValueReportDto>>("api/reports/inventory-value");
-      var alertsTask = Http.GetFromJsonAsync<IEnumerable<RestockReportDto>>("api/reports/restock-alerts");
-
-       await Task.WhenAll(valueTask, alertsTask);
-
-        inventoryValues = await valueTask ?? Array.Empty<InventoryValueReportDto>();
-        restockAlerts = await alertsTask ?? Array.Empty<RestockReportDto>();
+        var valueTask = InventoryReportingService.GetInventoryValueByCategory();
+      var alertsTask = InventoryReportingService.GetProductsToRestock();
 
 
                 }

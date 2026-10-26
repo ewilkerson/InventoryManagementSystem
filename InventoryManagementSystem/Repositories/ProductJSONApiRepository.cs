@@ -1,36 +1,43 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 using System.Text.Json;
 
-namespace InventoryManagementSystem.Services
+namespace InventoryManagementSystem.Repositories
 {
-    public class ProductJSONApiService : IProductApiService
+    public class ProductJSONApiRepository : IProductApiRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Products.json");
+        private readonly string _jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "InventoryReporting.json");
 
-        // Fixed constructor name to match the class
-        public ProductJSONApiService(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        // Helper method to load and deserialize the JSON file
+        private async Task<InventoryData> LoadDataAsync()
         {
-            if (!File.Exists(_jsonFilePath)) return new List<Product>();
+            if (!File.Exists(_jsonFilePath))
+            {
+                return new InventoryData();
+            }
 
             var json = await File.ReadAllTextAsync(_jsonFilePath);
-            return JsonSerializer.Deserialize<List<Product>>(json) ?? new List<Product>();
+            return JsonSerializer.Deserialize<InventoryData>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                   ?? new InventoryData();
         }
 
-        public async Task<Product?> GetProductByIdAsync(int id)
+
+        public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            var products = await GetAllProductsAsync();
+            var data = await LoadDataAsync();
+            return data.Products ?? new List<Product>();
+        }
+
+        public async Task<Product?> GetByIdAsync(int id)
+        {
+            var products = await GetAllAsync();
             return products.FirstOrDefault(p => p.Id == id);
         }
 
-        public async Task<Product> CreateProductAsync(Product product)
+        public async Task<Product> AddAsync(Product product)
         {
-            var products = (await GetAllProductsAsync()).ToList();
+            var products = (await GetAllAsync()).ToList();
 
             // Generate a new ID
             product.Id = products.Any() ? products.Max(p => p.Id) + 1 : 1;
@@ -40,9 +47,9 @@ namespace InventoryManagementSystem.Services
             return product;
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task UpdateAsync(Product product)
         {
-            var products = (await GetAllProductsAsync()).ToList();
+            var products = (await GetAllAsync()).ToList();
             var index = products.FindIndex(p => p.Id == product.Id);
 
             if (index != -1)
@@ -52,9 +59,9 @@ namespace InventoryManagementSystem.Services
             }
         }
 
-        public async Task DeleteProductAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var products = (await GetAllProductsAsync()).ToList();
+            var products = (await GetAllAsync()).ToList();
             var productToRemove = products.FirstOrDefault(p => p.Id == id);
 
             if (productToRemove != null)

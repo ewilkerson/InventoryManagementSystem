@@ -1,36 +1,41 @@
 ﻿using InventoryManagementSystem.Models;
+using InventoryManagementSystem.Services;
 using System.Text.Json;
 
-namespace InventoryManagementSystem.Services
+namespace InventoryManagementSystem.Repositories
 {
-    public class ProductJSONService : IProductService
+    public class ProductJSONRepository : IProductRepository
     {
-        private readonly HttpClient _httpClient;
-        private readonly string _jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "Products.json");
+        private readonly string _jsonFilePath = Path.Combine(Directory.GetCurrentDirectory(), "Data", "InventoryReporting.json");
 
-        // Fixed constructor name to match the class
-        public ProductJSONService(HttpClient httpClient)
+        // Helper method to load and deserialize the JSON file
+        private InventoryData LoadData()
         {
-            _httpClient = httpClient;
-        }
-
-        public IEnumerable<Product> GetAllProducts()
-        {
-            if (!File.Exists(_jsonFilePath)) return new List<Product>();
+            if (!File.Exists(_jsonFilePath))
+            {
+                return new InventoryData();
+            }
 
             var json = File.ReadAllText(_jsonFilePath);
-            return JsonSerializer.Deserialize<List<Product>>(json) ?? new List<Product>();
+            return JsonSerializer.Deserialize<InventoryData>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true })
+                   ?? new InventoryData();
         }
 
-        public  Product? GetProductById(int id)
+        public IEnumerable<Product> GetAll()
         {
-            var products = GetAllProducts();
+            var data = LoadData();
+            return data.Products ?? new List<Product>();
+        }
+
+        public  Product? GetById(int id)
+        {
+            var products = GetAll();
             return products.FirstOrDefault(p => p.Id == id);
         }
 
-        public Product CreateProduct(Product product)
+        public Product Add(Product product)
         {
-            var products = GetAllProducts().ToList();
+            var products = GetAll().ToList();
 
             // Generate a new ID
             product.Id = products.Any() ? products.Max(p => p.Id) + 1 : 1;
@@ -40,9 +45,9 @@ namespace InventoryManagementSystem.Services
             return product;
         }
 
-        public void UpdateProduct(Product product)
+        public void Update(Product product)
         {
-            var products = GetAllProducts().ToList();
+            var products = GetAll().ToList();
             var index = products.FindIndex(p => p.Id == product.Id);
 
             if (index != -1)
@@ -52,9 +57,9 @@ namespace InventoryManagementSystem.Services
             }
         }
 
-        public void DeleteProduct(int id)
+        public void Delete(int id)
         {
-            var products = GetAllProducts().ToList();
+            var products = GetAll().ToList();
             var productToRemove = products.FirstOrDefault(p => p.Id == id);
 
             if (productToRemove != null)

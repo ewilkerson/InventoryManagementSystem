@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using InventoryManagementSystem.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,16 +34,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // 3. Dependency Injection
-builder.Services.AddScoped<IProductApiRepository, ProductApiRepository>();
+//builder.Services.AddScoped<IProductApiRepository, ProductApiRepository>();
+//builder.Services.AddScoped<IInventoryReportingApiRepository, InventoryReportingApiRepository>();
+//builder.Services.AddScoped<IProductRepository, ProductRepository>();
+//builder.Services.AddScoped<IInventoryReportingRepository, InventoryReportingRepository>();
+builder.Services.AddScoped<IProductApiRepository, ProductJSONApiRepository>();
+builder.Services.AddScoped<IInventoryReportingApiRepository, InventoryReportingJSONApiRepository>();
+builder.Services.AddScoped<IProductRepository, ProductJSONRepository>();
+builder.Services.AddScoped<IInventoryReportingRepository, InventoryReportingJSONRepository>();
+
+
 builder.Services.AddScoped<IProductApiService, ProductApiService>();
-//builder.Services.AddScoped<IProductApiService, ProductJSONService>();
-builder.Services.AddScoped<IInventoryReportingApiRepository, InventoryReportingApiRepository>();
 builder.Services.AddScoped<IInventoryReportingApiService, InventoryReportingApiService>();
-
-
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-//builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductService, ProductJSONService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IInventoryReportingService, InventoryReportingService>();
 
 // 4. Authentication (JWT)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

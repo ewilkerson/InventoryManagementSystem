@@ -9,7 +9,7 @@ namespace InventoryManagementSystem.Repositories
     {
         IEnumerable<Product> GetAll();
         Product? GetById(int id);
-        Product AddAsync(Product product);
+        Product Add(Product product);
         void Update(Product product);
         void Delete(int id);
     }
@@ -35,7 +35,7 @@ namespace InventoryManagementSystem.Repositories
 
         // Note: The method is named "AddAsync" but returns a synchronous "Product". 
         // We are using synchronous SaveChanges here to match your interface signature.
-        public Product AddAsync(Product product)
+        public Product Add(Product product)
         {
             _context.Products.Add(product);
             _context.SaveChanges();

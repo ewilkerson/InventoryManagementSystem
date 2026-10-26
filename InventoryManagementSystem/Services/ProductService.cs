@@ -38,7 +38,7 @@ namespace InventoryManagementSystem.Services
         public Product CreateProduct(Product product)
         {
             _logger.LogInformation("Creating a new product in the database.");
-            return _repository.AddAsync(product);
+            return _repository.Add(product);
         }
 
         public void UpdateProduct(Product product)
