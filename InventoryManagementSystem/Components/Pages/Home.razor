@@ -11,13 +11,28 @@
 }
 else
 {
-    <ul>
-        @foreach (var product in products)
-        {
-            @* Displays the Name and UnitPrice defined in Product.cs[cite: 1] *@
-            <li>@product.Name - $@product.UnitPrice</li>
-        }
-    </ul>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Stock</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in products)
+            {
+                <tr>
+                    <td>@product.Name</td>
+                    <td>@product.SKU</td>
+                    <td>@product.UnitPrice.ToString("C")</td>
+                    <td>@product.StockQuantity</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
 }
 
 @code {

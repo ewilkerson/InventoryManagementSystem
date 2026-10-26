@@ -4,12 +4,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.Repositories
 {
+    // Make sure the interface matches exactly
     public interface IProductRepository
     {
         IEnumerable<Product> GetAll();
+        Product? GetById(int id);
+        Product AddAsync(Product product);
+        void Update(Product product);
+        void Delete(int id);
     }
 
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _context;
 
@@ -20,9 +25,37 @@ namespace InventoryManagementSystem.Repositories
 
         public IEnumerable<Product> GetAll()
         {
-            // AsNoTracking optimizes performance for read-only data
-            return _context.Products.Include(p => p.Category).AsNoTracking().ToList();
+            return _context.Products.ToList();
         }
 
+        public Product? GetById(int id)
+        {
+            return _context.Products.Find(id);
+        }
+
+        // Note: The method is named "AddAsync" but returns a synchronous "Product". 
+        // We are using synchronous SaveChanges here to match your interface signature.
+        public Product AddAsync(Product product)
+        {
+            _context.Products.Add(product);
+            _context.SaveChanges();
+            return product;
+        }
+
+        public void Update(Product product)
+        {
+            _context.Products.Update(product);
+            _context.SaveChanges();
+        }
+
+        public void Delete(int id)
+        {
+            var product = _context.Products.Find(id);
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                _context.SaveChanges();
+            }
+        }
     }
 }
