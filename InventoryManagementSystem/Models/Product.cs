@@ -28,31 +28,6 @@ namespace InventoryManagementSystem.Models
         public Category? Category { get; set; }
     }
 
-    public class Category
-    {
-        public int Id { get; set; }
-        [Required, StringLength(50)]
-        public string Name { get; set; } = string.Empty;
-        public ICollection<Product>? Products { get; set; }
-    }
 
-    public class Supplier
-    {
-        public int Id { get; set; }
-        [Required, StringLength(100)]
-        public string CompanyName { get; set; } = string.Empty;
-        [Required, EmailAddress]
-        public string ContactEmail { get; set; } = string.Empty;
-    }
 
-    public class Transaction
-    {
-        public int Id { get; set; }
-        public int ProductId { get; set; }
-        public Product? Product { get; set; }
-        [Required]
-        public string TransactionType { get; set; } = "Sale"; // or "Restock"
-        public int Quantity { get; set; }
-        public DateTime TransactionDate { get; set; } = DateTime.UtcNow;
-    }
 }

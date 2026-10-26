@@ -41,7 +41,8 @@ builder.Services.AddScoped<IInventoryReportingApiService, InventoryReportingApiS
 
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductService, ProductJSONService>();
 
 // 4. Authentication (JWT)
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
